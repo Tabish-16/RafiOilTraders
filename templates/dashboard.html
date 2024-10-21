@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="https://kit.fontawesome.com/db212db5f7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- Optional: DataTables Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <!-- Optional: DataTables Bootstrap JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+    
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+    <title>Oil Traders</title>
+</head>
+
+<style>
+    
+</style>
+<body>
+<nav class="bg-gray-900 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 z-50">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="{% url "home" %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src='{% static "/assets/logo.png" %}' class="h-8" alt="rafi Logo">
+    </a>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div class="space-x-4">
+            <a type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="{% url "home" %}" >Home</a>
+            <a type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" href="{% url "logout" %}" >Logout</a>
+        </div>
+        <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+      </button>
+    </div>
+    
+    </div>
+  </nav>
+
+  <div class="flex justify-center items-center mt-24">
+    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-md ">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Oil Change Entry</h2>
+        
+        <form id="my-form" action="{% url "new_entry" %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" placeholder="id" id="customer_id" name="customer_id" value="">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name Field -->
+                
+                <div class="flex flex-col">
+                    <label for="customers" class="text-gray-700 font-semibold mb-2">Customers</label>
+                    <select id="customers" name="customers" onchange="selectCustomer(this)" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option selected disabled>Select Customer</option>
+                        <!-- Add your customer options here -->
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="name" class="text-gray-700 font-semibold mb-2">Name</label>
+                    <input type="text" id="name" name="name" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Phone Number Field -->
+                <div class="flex flex-col">
+                    <label for="phone" class="text-gray-700 font-semibold mb-2">Phone Number</label>
+                    <input type="text" id="phone" name="phone" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Vehicle Type Field -->
+                <div class="flex flex-col">
+                    <label for="vehicle_type" class="text-gray-700 font-semibold mb-2">Vehicle Type</label>
+                    <input type="text" id="vehicle_type" name="vehicle" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Registration Number Field -->
+                <div class="flex flex-col">
+                    <label for="registration_num" class="text-gray-700 font-semibold mb-2">Registration Number</label>
+                    <input type="text" id="registration_num" name="registration_num" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Date Field -->
+                <div class="flex flex-col">
+                    <label for="date" class="text-gray-700 font-semibold mb-2">Date</label>
+                    <input type="date" id="date" name="date" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Last Reading Field -->
+                <div class="flex flex-col">
+                    <label for="last_reading" class="text-gray-700 font-semibold mb-2">Last Reading</label>
+                    <input type="number" id="last_reading" name="last_reading" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                <!-- Next Reading Field -->
+                <div class="flex flex-col">
+                    <label for="next_reading" class="text-gray-700 font-semibold mb-2">Next Reading</label>
+                    <input type="number" id="next_reading" name="next_reading" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+               
+               
+                <div class="flex flex-col">
+                    <label for="next_changing_date" class="text-gray-700 font-semibold mb-2">Next Changing Date</label>
+                    <input type="date" id="next_changing_date" name="next_changing_date" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                
+                
+                {% comment %} <div class="flex flex-col">
+                    <label for="next_changing_date" class="text-gray-700 font-semibold mb-2">Oil Company & Type</label>
+                    <select id="oil_company" name="oil_company"  class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option selected disabled>Engine Oil Brand & Gradel</option>
+                        
+                </div> {% endcomment %}
+                
+                <div class="flex flex-col">
+                    <label for="oil_company" class="text-gray-700 font-semibold mb-2">Engine Oil Brand & Grade</label>
+                    <select id="oil_company" name="oil_company" class="js-example-responsive border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option selected disabled>Engine Oil Brand & Grade</option>
+                    </select>
+                </div>
+
+
+                
+                
+                <div class="flex flex-col">
+                    <label for="oil_quantity" class="text-gray-700 font-semibold mb-2">Oil Quantity</label>
+                    <input type="number" id="oil_quantity" name="oil_quantity" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="500" required>
+                </div>
+                
+                
+                <div class="flex flex-col">
+                    <label for="oil_price" class="text-gray-700 font-semibold mb-2">Oil Amount</label>
+                    <input type="number" id="oil_price" name="oil_price" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="500" required>
+                </div>
+
+
+                <div class="flex flex-col">
+                    <label for="oil_filter" class="text-gray-700 font-semibold mb-2">Oil Filter</label>
+                    <input type="number" id="oil_filter" name="oil_filter" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="500" required>
+                </div>
+
+
+                <div class="flex flex-col">
+                    <label for="ac_filter" class="text-gray-700 font-semibold mb-2">A/C Filter</label>
+                    <input type="number" id="ac_filter" name="ac_filter" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="500" required>
+                </div>
+                
+                
+                <div class="flex flex-col">
+                    <label for="air_filter" class="text-gray-700 font-semibold mb-2">Air Filter</label>
+                    <input type="number" id="air_filter" name="air_filter" class="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="500" required>
+                </div>
+            </div>
+
+            <div class="my-6 text-center text-3xl ">
+                <h1 class="text-gray-800"><b>Total:</b> <span id="total-price" class="text-red-600"></span></h1>
+            </div>
+            
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <hr class="mt-10 ">
+
+  <div class="flex justify-center items-center mt-10">
+    <div class="w-11/12 mt-5 border p-4 rounded">
+        <table id="example" class="display ">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Registration Number</th>
+                    <th>Changing Date</th>
+                    <th>Last Reading</th>
+                    <th>Next Reading</th>
+                    <th>Next Changing Date</th>
+                    <th>Oil Change Info</th>
+                    <th>Bill</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+                 {% for data in entries %}
+                <tr class="">
+                    <td style="padding-block: 20px;" class="">{{data.name}}</td>
+                    <td class="">{{data.phone_number}}</td>
+                    <td class="">{{data.vehicle}}</td>
+                    <td class="">{{data.registeration_num}}</td>
+                    <td class="">{{data.date}}</td>
+                    <td class="">{{data.last_reading}}</td>
+                    <td class="">{{data.next_reading}}</td>
+                    <td class="">{{data.next_changing_date}}</td>
+                    <td class=""><a class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500" href="{% url "invoice_pdf" pk=data.id %}">Oil Info</a></td>
+                    <td class=""><a class="bg-blue-800 text-white py-2 px-6 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500" href="{% url "bill_pdf" pk=data.id %}">Bill</a></td>
+                </tr>
+                {% endfor %}
+                <!-- More rows can be added here -->
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
+    {% comment %} footer {% endcomment %}
+
+    <footer class="bg-gray-900 space-y-10 py-4 mt-20">
+      <nav class="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
+        <a class="hover:text-gray-900" href="#">Home</a>
+        <a class="hover:text-gray-900" href="#about">About</a>
+        <a class="hover:text-gray-900" href="#services">Services</a>
+        <a class="hover:text-gray-900" href="#contact">Contact</a>
+    </nav>
+    <div class="flex justify-center space-x-5">
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/instagram-new.png" />
+      </a>
+      <a href="https://messenger.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png" />
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+      </a>
+  </div>
+  <div class="">
+    <p class="text-center text-gray-700 font-medium">&copy; 2022 Company Ltd. All rights reservered.</p>
+  </div>
+    </footer> 
+
+
+</body>
+<script>
+
+    function calculateTotal() {
+        // Get the values of the fields
+        const oilAmount = parseFloat(document.getElementById('oil_price').value) || 0;
+        const airFilter = parseFloat(document.getElementById('air_filter').value) || 0;
+        const acFilter = parseFloat(document.getElementById('ac_filter').value) || 0;
+        const oilFilter = parseFloat(document.getElementById('oil_filter').value) || 0;
+
+        // Calculate the total
+        const total = oilAmount + airFilter + acFilter + oilFilter;
+
+        // Update the H1 tag with the total
+        document.getElementById('total-price').textContent = `${total} /RS`;
+    }
+
+    // Attach event listeners to the input fields to trigger the calculation on input change
+    document.getElementById('oil_price').addEventListener('input', calculateTotal);
+    document.getElementById('air_filter').addEventListener('input', calculateTotal);
+    document.getElementById('ac_filter').addEventListener('input', calculateTotal);
+    document.getElementById('oil_filter').addEventListener('input', calculateTotal);
+
+
+    $(document).ready(function() {
+        $('select').select2();
+    });
+    $('b[role="presentation"]').hide();
+    $('.select2-selection__arrow').append('<i class="fa fa-angle-down"></i>');
+    
+    const loadOil = ()=>{
+        const all_oils = {{all_oil|safe}}
+
+        for(const oil of all_oils){
+            let html = `<option value='${oil.pk}'> 
+                        ${oil.fields.name}
+                        </option>`;
+
+            $('#oil_company').append(html); 
+        }
+    }
+    
+    const loadCustomer = async() => {
+        const customers = {{ existing_entries|safe }};
+        
+    
+        for (const data of customers) {
+            let fields = data.fields;
+            fields.id = data.pk;
+            let html = `<option value='${JSON.stringify(data.fields)}'> 
+                        ${data.fields.registeration_num} - ${data.fields.vehicle} - ${data.fields.name}
+                        </option>`;
+            $("#customers").append(html);  
+        }
+    } 
+
+    function selectCustomer(t){
+        const customer = JSON.parse(t.value)
+        console.log(customer.id)
+        $("input[name='customer_id']").val(customer.id)
+        $("input[name='name']").val(customer.name)
+        $("input[name='phone']").val(customer.phone_number)
+        $("input[name='vehicle']").val(customer.vehicle)
+        $("input[name='registration_num']").val(customer.registeration_num)
+        $("input[name='date']").val(customer.date)
+        $("input[name='last_reading']").val(customer.last_reading)
+        $("input[name='next_reading']").val(customer.next_reading)
+        $("input[name='next_changing_date']").val(customer.next_changing_date)
+    }
+    loadCustomer()
+    loadOil()
+</script>
+</html>

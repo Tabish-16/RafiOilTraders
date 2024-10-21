@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="https://kit.fontawesome.com/db212db5f7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <title>Rafi Oil Traders</title>
+</head>
+<body>
+<nav class="bg-gray-900 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 z-50">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="static/assets/logo.png" class="h-8" alt="Flowbite Logo">
+    </a>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="toggleModal()">Login</button>
+        <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+      </button>
+    </div>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a href="#" class="block py-2 px-3 text-gray-200 bg-blue-700 rounded md:bg-transparent md:p-0 md:dark:text-blue-500 hover:text-blue-500" aria-current="page">Home</a>
+        </li>
+        <li>
+          <a href="#about" class="block py-2 px-3 text-gray-200 rounded hover:bg-gray-500 md:hover:bg-transparent md:p-0 hover:text-blue-500">About</a>
+        </li>
+        <li>
+          <a href="#services" class="block py-2 px-3 text-gray-200 rounded hover:bg-gray-500 md:hover:bg-transparent md:p-0 hover:text-blue-500">Services</a>
+        </li>
+        <li>
+          <a href="#contact" class="block py-2 px-3 text-gray-200 rounded hover:bg-gray-500 md:hover:bg-transparent md:p-0 hover:text-blue-500">Contact</a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+  {% comment %} modal {% endcomment %}
+
+  <div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden top-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <form method="post" action="{% url "login"  %}">
+          {% csrf_token %}
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700">Username</label>
+                <input type="text" name="name" id="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Password</label>
+                <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="flex justify-end">
+                <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded mr-2" onclick="toggleModal()">Cancel</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded" >Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleModal() {
+        const modal = document.getElementById('modal');
+        if (modal) {
+            modal.classList.toggle('hidden');
+        }
+    }
+</script>
+
+
+
+
+  {% comment %} hero section  {% endcomment %}
+
+  <div style="background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.pexels.com/photos/13065690/pexels-photo-13065690.jpeg?auto=compress&cs=tinysrgb&w=600) no-repeat center;background-size:cover"
+    class="py-52 px-1 md:px-8 text-center relative text-white font-bold text-2xl md:text-3xl overflow-auto">
+    <h1 class="pb-4">Search for your car</h1>
+    <form method="post" class="w-11/12 md:w-3/4 lg:max-w-3xl m-auto">
+        {% csrf_token %}
+        <div class="relative z-30 text-base text-black">
+            <input type="text" name="search_input" value="" placeholder="ABC-123" class="mt-2 shadow-md focus:outline-none rounded-2xl py-3 px-6 block w-full">
+            <input class="bg-blue-500 mt-4 px-10 py-2 text-gray-200 cursor-pointer hover:bg-blue-400 rounded-lg  shadow-md" type="submit" name="search">
+            <div class="text-left absolute top-10 rounded-t-none rounded-b-2xl shadow bg-white divide-y w-full max-h-40 overflow-auto">
+            </div>
+            
+        </div>
+    </form>
+</div>
+
+{% comment %} search model {% endcomment %}
+{% if filter %}
+    <div id="search_modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-blue-900 text-center">Oil Traders</h2>
+            <h2 class="text-2xl font-bold mb-4 text-green-900">Your Details</h2>
+            <div class="max-w-md mx-auto p-4">
+                <div class="flex flex-col space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Name:</span>
+                        <span class="text-gray-900">{{ filter.first.name }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Phone Number:</span>
+                        <span class="text-gray-900">{{ filter.first.phone_number }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Changing Date:</span>
+                        <span class="text-gray-900">{{ filter.first.date }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Registration Number:</span>
+                        <span class="text-gray-900">{{ filter.first.registeration_num }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Last Reading:</span>
+                        <span class="text-gray-900">{{ filter.first.last_reading }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Next Reading</span>
+                        <span class="text-gray-900">{{ filter.first.next_reading }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-gray-700">Next Changing Date</span>
+                        <span class="text-gray-900">{{ filter.first.next_changing_date }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-2">
+                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded mr-2" onclick="toggleModalClose()" >Close</button>
+            </div>
+        </div>
+    </div>
+    {% elif message %}
+    <div id="search_modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-blue-900">No Records</h2>
+            <p class="text-gray-700 mb-4">{{ message }}</p>
+            <div class="flex justify-end mt-2">
+                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded mr-2" onclick="toggleModalClose()" >Close</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+<script >
+    function toggleModalClose() {
+        const modal = document.getElementById('search_modal');
+        modal.classList.toggle('hidden');
+    }
+</script>
+{% comment %} about us {% endcomment %}
+
+<section id="about" class="mt-4 bg-gray-100 p-8 flex flex-col justify-center items-center">
+  <h2 class="uppercase text-5xl text-gray-800 dark:text-white font-bold text-center mb-10">About Us</h2>
+  <div class="flex flex-col lg:flex-row justify-around items-center gap-10 w-full max-w-7xl">
+      <div class="flex justify-center lg:justify-start">
+          <svg class="h-56" fill="#646a78" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 253" enable-background="new 0 0 256 253" xml:space="preserve" stroke="#646a78">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                  <path d="M2,69c0,13.678,9.625,25.302,22,29.576V233H2v18h252v-18h-22V98.554c12.89-3.945,21.699-15.396,22-29.554v-8H2V69z M65.29,68.346c0,6.477,6.755,31.47,31.727,31.47c21.689,0,31.202-19.615,31.202-31.47c0,11.052,7.41,31.447,31.464,31.447 c21.733,0,31.363-20.999,31.363-31.447c0,14.425,9.726,26.416,22.954,30.154V233H42V98.594C55.402,94.966,65.29,82.895,65.29,68.346 z M254,54H2l32-32V2h189v20h-0.168L254,54z M167.877,202.446c0.13,1.168,0,2.551-0.303,3.849l-11.027-10.162l-9.946,10.854 l11.157,10.119c-1.297,0.432-2.551,0.735-3.849,0.735c-3.849,0.13-7.135-1.038-9.946-3.589c-2.811-2.681-4.324-5.795-4.454-9.643 c0-1.341,0.13-2.854,0.432-4.151l-2.681-2.551l-16.043-14.66L94.06,213.17c-1.643,2.205-4.195,3.719-7.135,3.719 c-4.757,0-8.605-3.849-8.605-8.605c0-2.551,0.995-4.887,2.941-6.53l28.195-29.233L92.417,156.91 c-1.341,0.605-2.854,0.908-4.151,0.908c-3.849,0.13-7.135-1.038-9.946-3.589s-4.324-5.665-4.454-9.514 c-0.13-1.168,0-2.551,0.303-3.849l11.157,10.119l9.86-10.811l-11.157-10.119c1.168-0.432,2.551-0.735,3.849-0.735 c3.849-0.13,7.135,1.038,9.946,3.589c2.811,2.508,4.324,5.795,4.454,9.643c0.13,1.297,0,2.551-0.303,3.849l17.557,16.087 l12.843-13.881l-19.2-16.908l17.427-19.849l49.341,43.417l-17.427,19.849l-19.719-17.384l-12.411,14.66l19.287,17.643 c1.297-0.432,2.551-0.735,3.849-0.735c3.849-0.13,7.135,1.038,9.946,3.589C166.277,195.397,167.79,198.511,167.877,202.446z"></path>
+              </g>
+          </svg>
+      </div>
+      <div class="text-justify text-gray-700 dark:text-white max-w-xl">
+          <p>Welcome to our oil change workshop, where customer satisfaction and vehicle care are our top priorities. With years of experience in the automotive industry, our skilled technicians are dedicated to providing efficient, high-quality oil changes and maintenance services. We use premium oils and filters to ensure your vehicle's optimal performance and longevity. Our commitment to excellence extends to our friendly and knowledgeable staff, who are always ready to offer expert advice and personalized service. Trust us to keep your vehicle in peak condition and experience the difference of our professional and reliable care.</p>
+      </div>
+  </div>
+</section>
+
+   {% comment %} services {% endcomment %}
+
+
+   <div id="services" class="bg-gray-100 px-2 py-10 mt-4">
+
+    <div id="features" class="mx-auto max-w-6xl">
+      <h2 class="uppercase text-5xl text-gray-800 dark:text-white font-bold text-center">Our Services</h2>
+      <ul class="mt-16 grid grid-cols-1 gap-6 text-center text-slate-700 md:grid-cols-3">
+        <li class="rounded-xl bg-white px-6 py-8 shadow-sm">
+  
+          <h2 class="uppercase text-3xl text-gray-800 dark:text-white font-bold text-center">Oil Change</h2>
+          <svg class="h-20 w-20 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 8L13 11L11 9H7M18 8L21 11M18 8L14 15H3V9H7M7 9V4M7 4H4M7 4H10" stroke="#000000" stroke-width="2" stroke-linejoin="round"></path> <path d="M3 21L4.5 19.5C4.57965 19.4203 4.61948 19.3805 4.65474 19.3485C5.41756 18.6551 6.58244 18.6551 7.34526 19.3485C7.38052 19.3805 7.42035 19.4203 7.5 19.5L7.64853 19.6485C8.39493 20.3949 9.60507 20.3949 10.3515 19.6485L10.7252 19.2748C11.3847 18.6153 12.4827 18.724 13 19.5V19.5C13.5173 20.276 14.6153 20.3847 15.2748 19.7252L15.6485 19.3515C16.3949 18.6051 17.6051 18.6051 18.3515 19.3515L20 21" stroke="#000000" stroke-width="2" stroke-linejoin="round"></path> </g></svg>
+        </li>
+        <li class="rounded-xl bg-white px-6 py-8 shadow-sm">
+  
+          <h2 class="uppercase text-3xl text-gray-800 dark:text-white font-bold text-center">Tunning</h2>
+          <svg class="h-20 w-20 mx-auto" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M496.111,389.569c-0.146,0.051-14.798,4.975-30.353,4.975c-23.851,0-36.087-11.206-36.369-33.229 c0.281-22.099,12.52-33.304,36.371-33.304c15.515,0,30.205,4.923,30.352,4.974c0.297,0.102,0.604,0.151,0.908,0.154 c1.637,0.064,2.979-1.293,2.979-2.928c0-0.493-0.122-0.96-0.338-1.368c-0.745-1.815-4.662-10.681-13.448-19.583 c-8.898-9.016-24.682-19.766-49.338-19.766c-38.926,0-56.072,32.426-61.301,45.187H267.926v-52.522h54.456 c3.101,0,5.612-2.514,5.612-5.612v-67.204c0-3.1-2.513-5.612-5.612-5.612H178.607c-3.1,0-5.612,2.513-5.612,5.612v67.204 c0,3.101,2.513,5.612,5.612,5.612h56.241v52.521H124.409c-5.23-12.76-22.379-45.188-61.304-45.188 c-24.655,0-40.438,10.75-49.337,19.767c-9.644,9.774-13.42,19.499-13.576,19.909c-0.404,1.061-0.159,2.259,0.628,3.074 c0.787,0.817,1.976,1.106,3.051,0.742c0.146-0.049,14.838-4.974,30.351-4.974c23.853,0,36.09,11.205,36.372,33.228 c-0.282,22.098-12.518,33.304-36.37,33.305c-15.516,0.001-30.207-4.926-30.353-4.975c-1.073-0.362-2.264-0.076-3.051,0.742 c-0.788,0.817-1.032,2.016-0.628,3.075c0.156,0.408,3.932,10.135,13.577,19.909c8.899,9.019,24.682,19.768,49.337,19.768 c38.931,0,56.076-32.428,61.304-45.188h110.439v71.313c0,1.617,1.311,2.93,2.929,2.93h27.22c1.618,0,2.93-1.312,2.93-2.93v-71.313 h107.647c5.227,12.761,22.373,45.188,61.303,45.188c24.656,0,40.439-10.749,49.338-19.768 c9.646-9.774,13.421-19.501,13.577-19.909c0.404-1.06,0.16-2.259-0.628-3.075C498.375,389.493,497.187,389.202,496.111,389.569z"></path> <path d="M13.419,284.733c3.064,1.324,6.604,0.885,9.253-1.146c0.202-0.156,20.529-13.396,44.494-13.396 c19.049,0,35.253,7.918,48.163,27.748c1.733,2.664,4.665,4.186,7.716,4.186c0.13,0,0.26-0.003,0.391-0.01 c4.91-0.197,8.83-4.238,8.83-9.197c0-0.387-0.024-0.766-0.07-1.139c-1.833-30.457,5.501-72.672,31.594-100.493 c19.979-21.301,48.611-32.101,85.103-32.101l0.656,0.001l0.689-0.002c37.103,0,66.043,10.801,86.022,32.101 c32.056,34.176,31.538,83.763,30.617,98.148c-0.267,4.176,2.315,8.006,6.286,9.325c3.973,1.319,8.332-0.208,10.615-3.714 c12.479-19.169,28.043-25.686,46.261-25.686c24.464,0,45.992,13.905,46.191,14.067c2.626,2.134,6.213,2.655,9.337,1.354 c3.125-1.297,5.286-4.207,5.627-7.572c0.211-2.086,4.975-51.557-12.454-90.719c-2.014-4.526-7.252-6.647-11.85-4.795l-2.958,1.191 c-10.759,4.333-35.367,14.248-49.224,19.768c-2.064-3.989-5.228-9.267-10.059-16.453c-2.778-4.131-5.534-8.038-7.759-11.128 c8.741-8.38,25.46-24.478,37.435-36.45c3.041-3.041,3.571-7.781,1.279-11.419c-29.025-46.04-66.22-67.86-92.312-78.061 c-28.475-11.132-50.116-11.261-51.023-11.261c-4.603,0-8.496,3.397-9.12,7.958l-6.92,50.572h-53.355l-6.919-50.574 c-0.624-4.56-4.518-7.957-9.12-7.957c-0.907,0-22.549,0.127-51.024,11.259c-26.091,10.201-63.285,32.023-92.309,78.062 c-2.293,3.638-1.762,8.377,1.278,11.417c11.974,11.974,28.692,28.073,37.435,36.453c-2.226,3.09-4.983,6.997-7.759,11.128 c-4.832,7.186-7.994,12.464-10.059,16.453c-14.345-5.714-40.211-16.138-50.16-20.147l-2.02-0.814 c-4.598-1.852-9.836,0.268-11.851,4.796c-17.43,39.163-12.667,88.634-12.455,90.72C8.248,280.53,10.356,283.411,13.419,284.733z M33.939,202.236c16.224,6.536,45.954,18.499,52.528,21.027c2.83,1.089,8.254,2.413,12.496-8.09 c4.242-10.503,12.662-22.184,22.8-35.621c2.816-3.732,2.387-8.983-0.997-12.208c-0.234-0.225-21.298-20.302-37.664-36.472 c20.475-30.076,46.901-51.687,78.644-64.282c15.681-6.222,29.116-8.686,37.144-9.661l6.832,49.937 c0.625,4.559,4.519,7.956,9.121,7.956h69.418c4.602,0,8.496-3.397,9.121-7.956l6.832-49.94 C320.518,59.402,375.53,71.542,416,130.877c-16.365,16.165-37.427,36.242-37.662,36.467c-3.385,3.225-3.812,8.476-0.997,12.208 c10.139,13.434,18.956,26.224,22.801,35.621c3.844,9.397,9.663,9.181,12.496,8.09c6.586-2.531,36.181-14.441,52.528-21.026 c7.031,20.343,8.364,42.976,8.328,57.597c-10.624-5.773-26.192-8.883-43.455-8.883c-12.574,0-29.205,0.297-45.102,14.432 c-2.008-24.508-9.744-59.5-35.249-86.691c-23.599-25.16-57.059-37.917-99.451-37.917l-0.692,0.002h-0.652 c-41.782,0-74.933,12.756-98.531,37.915c-26.355,28.1-34.228,64.293-36.223,89.452c-16.498-14.838-33.863-16.364-46.972-16.364 c-16.518,0-31.35,3.433-41.552,8.598C25.543,245.778,26.821,222.834,33.939,202.236z"></path> </g> </g> </g></svg>
+          
+  
+        </li>
+        <li class="rounded-xl bg-white px-6 py-8 shadow-sm">
+          <h2 class="uppercase text-3xl text-gray-800 dark:text-white font-bold text-center">Car Wash</h2>
+          <svg class="h-20 w-20 mx-auto" fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 295.238 295.238" xml:space="preserve" stroke="#000000" stroke-width="3.8380940000000003"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M80.952,184.19v11.048h71.429v-47.619h-45.31L80.952,184.19z M142.857,157.143v28.571h-51.29l20.41-28.571H142.857z"></path> <path d="M157.143,147.619v47.619h71.429V184.19l-26.119-36.571H157.143z M166.667,185.714v-28.571h30.881l20.41,28.571H166.667z"></path> <path d="M277.348,185.857l-19.033-4.762c-4.795-1.214-7.567-3.086-11.581-7.671l-23.933-33.5 c-6.138-7.852-13.171-11.352-22.8-11.352h-90.476c-9.633,0-16.667,3.5-22.924,11.519l-23.529,32.976 c-4.276,4.924-7.538,7.162-11.476,7.952l-28.757,4.795C9.181,188.657,0,200.1,0,214.286v33.333 c0,10.324,8.724,19.048,19.048,19.048h14.667c2.324,16.124,16.195,28.571,32.952,28.571h228.571v-9.524h-43.386 c5.114-5.005,8.6-11.638,9.671-19.048h19.429c11.805,0,14.286-7.771,14.286-14.286v-42.857 C295.238,197.719,285.605,187.252,277.348,185.857z M66.667,285.715c-13.129,0-23.81-10.682-23.81-23.81 c0-13.129,10.681-23.81,23.81-23.81c13.129,0,23.81,10.681,23.81,23.81C90.477,275.034,79.796,285.715,66.667,285.715z M89.948,285.714c5.114-5.005,8.6-11.638,9.671-19.048h96c1.067,7.41,4.552,14.043,9.671,19.048H89.948z M228.571,285.714 c-13.129,0-23.81-10.681-23.81-23.81c0-13.129,10.681-23.81,23.81-23.81c13.129,0,23.81,10.681,23.81,23.81 C252.381,275.033,241.7,285.714,228.571,285.714z M285.714,252.381L285.714,252.381c0,4.09-0.667,4.762-4.762,4.762h-19.429 c-2.324-16.124-16.195-28.571-32.952-28.571c-16.757,0-30.629,12.448-32.952,28.571h-96 c-2.324-16.124-16.195-28.571-32.952-28.571c-16.757,0-30.629,12.448-32.952,28.571H19.048c-5.071,0-9.524-4.452-9.524-9.524 v-23.81h9.524v9.524h9.524v-9.524c0-6.143-3.381-9.524-9.524-9.524H9.524c0-11.781,7.881-17.614,15.071-19.114l28.724-4.79 c6.214-1.248,11.281-4.557,17.224-11.424l23.686-33.171c4.381-5.605,8.529-7.69,15.295-7.69H200 c6.762,0,10.91,2.086,15.171,7.529l24.09,33.69c4.671,5.371,9.095,9.086,16.724,11.014l19.4,4.838 c4.067,0.7,10.329,7.171,10.329,14.357V252.381z"></path> <rect x="138.095" y="204.762" width="14.286" height="9.524"></rect> <path d="M66.667,247.619c-7.876,0-14.286,6.41-14.286,14.286c0,7.876,6.41,14.286,14.286,14.286 c7.876,0,14.286-6.41,14.286-14.286C80.952,254.029,74.543,247.619,66.667,247.619z M66.667,266.667 c-2.624,0-4.762-2.133-4.762-4.762c0-2.629,2.138-4.762,4.762-4.762c2.624,0,4.762,2.133,4.762,4.762 C71.429,264.534,69.29,266.667,66.667,266.667z"></path> <path d="M228.571,247.619c-7.876,0-14.286,6.41-14.286,14.286c0,7.876,6.41,14.286,14.286,14.286 c7.876,0,14.286-6.41,14.286-14.286C242.857,254.029,236.448,247.619,228.571,247.619z M228.571,266.667 c-2.624,0-4.762-2.133-4.762-4.762c0-2.629,2.138-4.762,4.762-4.762c2.624,0,4.762,2.133,4.762,4.762 C233.333,264.534,231.195,266.667,228.571,266.667z"></path> <rect x="23.81" y="285.714" width="9.524" height="9.524"></rect> <rect x="4.762" y="285.714" width="9.524" height="9.524"></rect> <rect x="61.905" y="47.619" width="9.524" height="71.429"></rect> <rect x="28.571" y="47.619" width="9.524" height="90.476"></rect> <rect x="228.571" y="47.619" width="9.524" height="90.476"></rect> <rect x="261.905" y="47.619" width="9.524" height="90.476"></rect> <rect x="95.238" y="47.619" width="9.524" height="71.429"></rect> <rect x="128.571" y="66.667" width="9.524" height="52.381"></rect> <rect x="161.905" y="47.619" width="9.524" height="52.381"></rect> <rect x="195.238" y="47.619" width="9.524" height="71.429"></rect> <path d="M273.81,14.286h-59.524V0h-9.524v14.286H90.476V0h-9.524v14.286H21.429C9.614,14.286,0,23.9,0,35.714v7.143h295.238 v-7.143C295.238,23.9,285.624,14.286,273.81,14.286z M10.519,33.333c1.838-4.762,6.038-9.524,10.91-9.524H273.81 c4.871,0,9.071,4.762,10.91,9.524H10.519z"></path> <rect x="61.905" y="147.619" width="9.524" height="9.524"></rect> <rect x="261.905" y="147.619" width="9.524" height="9.524"></rect> <rect x="28.571" y="147.619" width="9.524" height="9.524"></rect> <rect x="28.571" y="166.667" width="9.524" height="9.524"></rect> <rect x="261.905" y="166.667" width="9.524" height="9.524"></rect> <rect x="161.905" y="109.524" width="9.524" height="9.524"></rect> <rect x="61.905" y="128.571" width="9.524" height="9.524"></rect> <rect y="171.429" width="9.524" height="9.524"></rect> <rect x="285.714" y="171.429" width="9.524" height="9.524"></rect> <rect x="128.571" y="47.619" width="9.524" height="9.524"></rect> </g> </g> </g> </g></svg>
+        </li>
+        
+      </ul>
+    </div>
+    </div>
+  
+
+      {% comment %} contact {% endcomment %}
+
+      <section id="contact" class="bg-gray-100 mt-4">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
+            <div class="max-w-2xl lg:max-w-4xl mx-auto text-center">
+              <h2 class="uppercase text-5xl text-gray-800 dark:text-white font-bold text-center">Contact</h2>
+                <p class="mt-4 text-lg text-gray-500">To Find Us</p>
+            </div>
+            <div class="mt-16 lg:mt-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="rounded-lg overflow-hidden">
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d536.6416529342127!2d72.71888538338354!3d33.77649155122822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfa700582563d3%3A0x524c92c2f953c84d!2sRAFI%20FREE%20OIL%20CHANGE%20%26%20FREE%20CAR%20WASH!5e1!3m2!1sen!2s!4v1722599219988!5m2!1sen!2s" width="100%" height="480" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div>
+                        <div class="max-w-full mx-auto rounded-lg overflow-hidden">
+                            <div class="px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Our Address</h3>
+                                <p class="mt-1 text-gray-600">QPG9+HHM, Peshawar-Rawalpindi Rd, Sadat Colony, Wah, Rawalpindi, Punjab, Pakistan</p>
+                            </div>
+                            <div class="border-t border-gray-200 px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Hours</h3>
+                                <p class="mt-1 text-gray-600">Monday - Friday: 9am - 5pm</p>
+                                <p class="mt-1 text-gray-600">Saturday: 10am - 4pm</p>
+                                <p class="mt-1 text-gray-600">Sunday: Closed</p>
+                            </div>
+                            <div class="border-t border-gray-200 px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Contact</h3>
+                                <p class="mt-1 text-gray-600">Email: info@example.com</p>
+                                <p class="mt-1 text-gray-600">Phone: +92 322 5779900</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+    {% comment %} footer {% endcomment %}
+
+    <footer class="bg-gray-900 space-y-10 py-4">
+      <nav class="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
+        <a class="hover:text-gray-900" href="#">Home</a>
+        <a class="hover:text-gray-900" href="#about">About</a>
+        <a class="hover:text-gray-900" href="#services">Services</a>
+        <a class="hover:text-gray-900" href="#contact">Contact</a>
+    </nav>
+    <div class="flex justify-center space-x-5">
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/instagram-new.png" />
+      </a>
+      <a href="https://messenger.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png" />
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+      </a>
+  </div>
+  <div class="">
+    <p class="text-center text-gray-700 font-medium">&copy; 2022 Company Ltd. All rights reservered.</p>
+  </div>
+    </footer>
+
+    
+    {% comment %} <footer class="flex flex-col space-y-10 justify-center m-10 bg-gray-900 ">
+
+      <nav class="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
+          <a class="hover:text-gray-900" href="#">Home</a>
+          <a class="hover:text-gray-900" href="#">About</a>
+          <a class="hover:text-gray-900" href="#">Services</a>
+          <a class="hover:text-gray-900" href="#">Media</a>
+          <a class="hover:text-gray-900" href="#">Gallery</a>
+          <a class="hover:text-gray-900" href="#">Contact</a>
+      </nav>
+  
+      <div class="flex justify-center space-x-5">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/fluent/30/000000/linkedin-2.png" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/fluent/30/000000/instagram-new.png" />
+          </a>
+          <a href="https://messenger.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/fluent/30/000000/facebook-messenger--v2.png" />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://img.icons8.com/fluent/30/000000/twitter.png" />
+          </a>
+      </div>
+      <p class="text-center text-gray-700 font-medium">&copy; 2022 Company Ltd. All rights reservered.</p>
+  </footer> {% endcomment %}
+
+
+</body>
+</html>
