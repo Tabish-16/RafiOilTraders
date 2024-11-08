@@ -9,7 +9,9 @@ from fpdf import FPDF
 import pywhatkit as kit
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
+import os
 
+os.environ['DISPLAY'] = ':0
 
 def whatsappsender(phone_number, name, registeration_num, last_reading, next_reading, next_changing_date):
     try:
