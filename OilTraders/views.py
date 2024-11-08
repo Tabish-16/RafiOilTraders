@@ -6,6 +6,77 @@ from OilTraders.models import *
 from sms import send_sms
 from django.core import serializers 
 from fpdf import FPDF
+import pywhatkit as kit
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta
+
+
+def whatsappsender(phone_number, name, registeration_num, last_reading, next_reading, next_changing_date):
+    try:
+        # Construct the message with newline characters
+        message = (
+            f"Thank you Mr. {name} for choosing us.\n\n"
+            f"Last reading: {last_reading}\n"
+            f"Next oil change reading: {next_reading}\n"
+            f"Next change date: {next_changing_date}"
+        )
+        
+        # Send the WhatsApp message instantly
+        kit.sendwhatmsg_instantly(phone_number, message)
+        return "Message Sent Instantly!"
+    except Exception as e:
+        print(f"Failed to send WhatsApp message: {e}")
+        return f"Failed to send message: {e}"
+
+
+def send_whatsapp_reminder(phone_number, name, next_changing_date):
+    try:
+        # Message template
+        message = (
+            f"Reminder: Dear {name}, it's time to check your vehicle.\n"
+            f"Your next oil change is scheduled for {next_changing_date}.\n"
+            f"Please visit us soon!"
+        )
+        # Send WhatsApp message instantly
+        kit.sendwhatmsg_instantly(phone_number, message)
+        print(f"Reminder sent to {name}")
+    except Exception as e:
+        print(f"Failed to send WhatsApp message: {e}")
+
+# Function to check which customers need reminders and send them
+def check_and_send_reminders():
+    # Get current date
+    current_date = datetime.now().date()
+    
+    # Fetch all customers from the database
+    customers = NewEntry.objects.all()
+    
+    for customer in customers:
+        # Check if 15 days have passed since the last oil change date
+        last_oil_change_date = customer.date  # The date the customer last changed oil
+        next_reminder_date = last_oil_change_date + timedelta(days=15)  # Reminder 15 days later
+        
+        if current_date >= next_reminder_date:
+            # Send reminder via WhatsApp
+            send_whatsapp_reminder(customer.phone_number, customer.name, customer.next_changing_date)
+            
+            # Update the last oil change date (reset for the next 15 days cycle)
+            customer.date = current_date  # Reset the date to the current date for the next cycle
+            customer.save()  # Save the updated date to the database
+
+# Function to start the scheduler
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    
+    # Schedule the check_and_send_reminders function to run once every day
+    scheduler.add_job(check_and_send_reminders, 'interval', days=1)
+    
+    # Start the scheduler in the background
+    scheduler.start()
+
+# Call this function when your Django app starts (e.g., in apps.py or settings.py)
+start_scheduler()
+
 
 def home(request):
     context = {}
@@ -41,7 +112,7 @@ def logoutUser(request):
     return redirect('home')    
 @login_required        
 def dashboard(request):
-    entries = NewEntry.objects.all()
+    entries = NewEntry.objects.all().order_by('-id')
     oil_companies = Oil_Companies.objects.all()
     
     all_oil = serializers.serialize('json',oil_companies)    
@@ -91,6 +162,7 @@ def new_entry(request):
                 customer.air_filter = air_filter
                 customer.oil_price = oil_price
                 customer.save()
+                whatsappsender(phone_number,name,registeration_num,last_reading,next_reading,next_changing_date)
             else:
                 # Create new customer
                 NewEntry.objects.create(
@@ -109,6 +181,7 @@ def new_entry(request):
                     air_filter = air_filter,
                     oil_price = oil_price,
                 )
+                whatsappsender(phone_number,name,registeration_num,last_reading,next_reading,next_changing_date)
             
             return redirect('dashboard')
     except Exception as e:
@@ -118,14 +191,7 @@ def new_entry(request):
     
     #send sms 
 
-def sendReminders(request):
-    send_sms(
-    'Here is the message',
-    '+923168771688',
-    ['+923185858855'],
-    fail_silently=True
-    )    
-    return HttpResponse('message sent')
+
 
 
 class POSReceipt(FPDF):
