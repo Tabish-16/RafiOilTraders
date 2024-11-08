@@ -11,7 +11,7 @@
 <body>
 <nav class="bg-gray-900 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600 z-50">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="{% url "home" %}" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="{% static 'assets/logo.png' %}" class="h-8" alt=" Logo">
     </a>
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -82,7 +82,10 @@
   {% comment %} hero section  {% endcomment %}
 
   <div style="background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.pexels.com/photos/13065690/pexels-photo-13065690.jpeg?auto=compress&cs=tinysrgb&w=600) no-repeat center;background-size:cover"
-    class="py-52 px-1 md:px-8 text-center relative text-white font-bold text-2xl md:text-3xl overflow-auto">
+    class="py-52 px-1 md:px-8 text-center relative text-white font-bold text-2xl md:text-3xl overflow-auto space-y-4">
+    <div class="">
+        <h1 class=" lg:text-5xl animate-bounce font-mono">Rafi Oil Traders</h1>
+    </div>
     <h1 class="pb-4">Search for your car</h1>
     <form method="post" class="w-11/12 md:w-3/4 lg:max-w-3xl m-auto">
         {% csrf_token %}
@@ -225,18 +228,42 @@
                         <div class="max-w-full mx-auto rounded-lg overflow-hidden">
                             <div class="px-6 py-4">
                                 <h3 class="text-lg font-medium text-gray-900">Our Address</h3>
-                                <p class="mt-1 text-gray-600">QPG9+HHM, Peshawar-Rawalpindi Rd, Sadat Colony, Wah, Rawalpindi, Punjab, Pakistan</p>
+                                <p class="mt-1 text-gray-600">main malakand stop near wah corner and sweets gt road wah</p>
                             </div>
                             <div class="border-t border-gray-200 px-6 py-4">
                                 <h3 class="text-lg font-medium text-gray-900">Hours</h3>
-                                <p class="mt-1 text-gray-600">Monday - Friday: 9am - 5pm</p>
-                                <p class="mt-1 text-gray-600">Saturday: 10am - 4pm</p>
-                                <p class="mt-1 text-gray-600">Sunday: Closed</p>
+                                <p class="mt-1 text-gray-600">Saturday - Thursday: 8am - 8pm</p>
+                                <p class="mt-1 text-gray-600">Friday: Closed</p>
                             </div>
                             <div class="border-t border-gray-200 px-6 py-4">
                                 <h3 class="text-lg font-medium text-gray-900">Contact</h3>
-                                <p class="mt-1 text-gray-600">Email: info@example.com</p>
-                                <p class="mt-1 text-gray-600">Phone: +92 322 5779900</p>
+                                <p class="mt-1 text-gray-600">Email: muhammad.rafi199918@gmail.com</p>
+                                <p class="mt-1 text-gray-600">Phone: 03225779900</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 lg:mt-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="rounded-lg overflow-hidden">
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d536.6416529342127!2d72.71888538338354!3d33.77649155122822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfa700582563d3%3A0x524c92c2f953c84d!2sRAFI%20FREE%20OIL%20CHANGE%20%26%20FREE%20CAR%20WASH!5e1!3m2!1sen!2s!4v1722599219988!5m2!1sen!2s" width="100%" height="480" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div>
+                        <div class="max-w-full mx-auto rounded-lg overflow-hidden">
+                            <div class="px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Our Address</h3>
+                                <p class="mt-1 text-gray-600">main malakand stop near wah corner and sweets gt road wah</p>
+                            </div>
+                            <div class="border-t border-gray-200 px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Hours</h3>
+                                <p class="mt-1 text-gray-600">Saturday - Thursday: 8am - 8pm</p>
+                                <p class="mt-1 text-gray-600">Friday: Closed</p>
+                            </div>
+                            <div class="border-t border-gray-200 px-6 py-4">
+                                <h3 class="text-lg font-medium text-gray-900">Contact</h3>
+                                <p class="mt-1 text-gray-600">Email: muhammad.rafi199918@gmail.com</p>
+                                <p class="mt-1 text-gray-600">Phone: 03225779900</p>
                             </div>
                         </div>
                     </div>
